@@ -22,7 +22,6 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Sales\Model\Order;
 use MultiSafepay\Api\Transactions\OrderRequest;
-use MultiSafepay\Api\Transactions\OrderRequest\Arguments\CheckoutOptions;
 use MultiSafepay\ConnectCore\Model\Api\Builder\OrderRequestBuilder;
 use MultiSafepay\ConnectCore\Model\Api\Builder\OrderRequestBuilder\ShoppingCartBuilder;
 use MultiSafepay\ConnectCore\Model\Ui\Gateway\AfterpayConfigProvider;
@@ -59,6 +58,7 @@ class ShoppingCartBuilderTest extends AbstractTestCase
     {
         $orderRequest = $this->prepareOrderRequest();
         $orderRequest->addGatewayCode(AfterpayConfigProvider::CODE);
+
         self::assertArrayNotHasKey('shopping_cart', $orderRequest->getData());
     }
 

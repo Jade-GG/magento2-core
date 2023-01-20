@@ -17,7 +17,6 @@ declare(strict_types=1);
 
 namespace MultiSafepay\ConnectCore\Model\Ui;
 
-use Exception;
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Checkout\Model\Session;
 use Magento\Framework\App\Config\Storage\WriterInterface;
@@ -323,29 +322,13 @@ class GenericConfigProvider implements ConfigProviderInterface
     }
 
     /**
-     * Get Issuers if available
-     *
      * @return array
+     * @throws ClientExceptionInterface
      */
     public function getIssuers(): array
     {
         $issuers = [];
-        
-        $paymentConfig = $this->getPaymentConfig($this->getStoreIdFromCheckoutSession());
-        
-        if (!$paymentConfig) {
-            $this->logger->debug('Payment config not found when retrieving issuers');
-        }
-        
-        if (!isset($paymentConfig['active'])) {
-            $this->logger->debug('Could not check if payment method is activated when retrieving issuers');
-        }
-        
-        if (!$paymentConfig['active']) {
-            // Payment method not activated, issuer request not sent
-            return [];
-        }
-        
+
         if ($multiSafepaySdk = $this->getSdk()) {
             try {
                 $issuerListing = $multiSafepaySdk->getIssuerManager()->getIssuersByGatewayCode($this->getGatewayCode());
@@ -357,10 +340,7 @@ class GenericConfigProvider implements ConfigProviderInterface
                 }
             } catch (InvalidArgumentException $invalidArgumentException) {
                 $this->logger->logException($invalidArgumentException);
-            } catch (ClientExceptionInterface $clientException) {
-                $this->logger->logException($clientException);
-            } catch (ApiException $apiException) {
-                $this->logger->logException($apiException);
+                return $issuers;
             }
         }
 

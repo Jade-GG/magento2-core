@@ -99,6 +99,7 @@ class ShoppingCartRefundRequestBuilderTest extends AbstractTestCase
         $stateObject = new DataObject();
         $order = $this->getOrder();
         $order->getPayment()->setCreditMemo($this->getCreditMemo());
+
         $paymentDataObject = $this->getNewPaymentDataObject($order);
 
         $buildSubject = [

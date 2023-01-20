@@ -6,21 +6,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [2.20.0] - 2022-12-07
-### Added
-- Added support for optional customer city argument
-- Added raw response data to Apple Pay Merchant Session request logs for better debugging possibilities
-- Added improved response handling for Pay After Delivery and Klarna refunds
-
-### Fixed
-- Fixed '1000 Required Fields error' in rare cases when creating a shipping update request
-- Make sure checkout loads if API is unreachable
-
-### Changed
-- Only retrieve issuers for a gateway when it has been activated
-- The payment will now only be saved after redirect, whenever sensitive information has been detected and removed from the payment additional information
-- Changed the POST notification process to only retrieve the order after POST validation has passed
-
 ## [2.19.1] - 2022-10-24
 ### Fixed
 - Fixed a TypeError which happened in some instances when trying to retrieve E-invoicing dynamic checkout fields.
